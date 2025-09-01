@@ -79,6 +79,34 @@
       background: deeppink;
       transform: scale(1.1);
     }
+
+    input {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+
+    #message {
+      margin-top: 10px;
+      color: #ff1493;
+      font-weight: bold;
+    }
+
+    /* Unlock animation for the button */
+    .magic-button {
+      animation: pulseGlow 1.5s infinite alternate, bounce 1.2s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 10px hotpink, 0 0 20px deeppink; }
+      100% { box-shadow: 0 0 25px hotpink, 0 0 40px deeppink; }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
   </style>
 </head>
 <body>
@@ -118,10 +146,16 @@
   <div id="finalBox" class="box">
     <p>Here are your answers, my love 💖:</p>
     <ul id="summary"></ul>
-    <p>And now… your surprise 🎶</p>
-    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
-      <button>💖 Click Me 💖</button>
-    </a>
+    <p>But first… enter the passcode 🔐</p>
+    <input type="text" id="passcode" placeholder="Enter code">
+    <br>
+    <button onclick="checkPasscode()">Unlock</button>
+    <p id="message"></p>
+    <div id="surprise" style="display:none; margin-top:15px;">
+      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
+        <button id="clickMeButton">💖 Click Me 💖</button>
+      </a>
+    </div>
   </div>
 
   <!-- Romantic Music -->
@@ -133,6 +167,7 @@
   <script>
     let currentBox = 1;
     let answers = [];
+    let attempts = 0;
 
     const questions = [
       "Do you regret being in this relationship? 💔",
@@ -143,12 +178,8 @@
     ];
 
     function nextBox(num, answer) {
-      // Save answer
       answers.push({ q: questions[num - 1], a: answer });
-
-      // Hide current box
       document.getElementById("box" + num).classList.remove("active");
-
       currentBox++;
       if (currentBox <= 5) {
         document.getElementById("box" + currentBox).classList.add("active");
@@ -168,11 +199,37 @@
       document.getElementById("finalBox").classList.add("active");
     }
 
+    function checkPasscode() {
+      const code = document.getElementById("passcode").value.trim();
+      const msg = document.getElementById("message");
+      attempts++;
+
+      if (code === "24/07") {
+        msg.textContent = "Perfect! 💕";
+        unlockSurprise();
+      } else {
+        if (attempts === 1) {
+          msg.textContent = "Try again 💌";
+        } else if (attempts === 2) {
+          msg.textContent = "Hint: ily 💖";
+        } else if (attempts >= 3) {
+          msg.textContent = "It's okay, love always wins ❤️";
+          unlockSurprise();
+        }
+      }
+    }
+
+    function unlockSurprise() {
+      const surpriseDiv = document.getElementById("surprise");
+      const button = document.getElementById("clickMeButton");
+      surpriseDiv.style.display = "block";
+      button.classList.add("magic-button"); // Add animation
+    }
+
     function createFloaty() {
       const elem = document.createElement("div");
       elem.classList.add("floaty");
 
-      // Random hearts and flowers
       const emojis = ["❤️", "💗", "🌹", "🌸"];
       elem.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
 
