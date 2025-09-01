@@ -87,36 +87,38 @@
   <!-- Question Boxes -->
   <div id="box1" class="box active">
     <p>Do you regret being in this relationship? 💔</p>
-    <button onclick="nextBox(1)">Yes</button>
-    <button onclick="nextBox(1)">No</button>
+    <button onclick="nextBox(1, 'Yes')">Yes</button>
+    <button onclick="nextBox(1, 'No')">No</button>
   </div>
 
   <div id="box2" class="box">
     <p>Are you mad at me? 🥺</p>
-    <button onclick="nextBox(2)">Yes</button>
-    <button onclick="nextBox(2)">No</button>
+    <button onclick="nextBox(2, 'Yes')">Yes</button>
+    <button onclick="nextBox(2, 'No')">No</button>
   </div>
 
   <div id="box3" class="box">
     <p>Do you really love me? ❤️</p>
-    <button onclick="nextBox(3)">Yes</button>
-    <button onclick="nextBox(3)">No</button>
+    <button onclick="nextBox(3, 'Yes')">Yes</button>
+    <button onclick="nextBox(3, 'No')">No</button>
   </div>
 
   <div id="box4" class="box">
     <p>Can I always be your Hello Kitty boy? 🐱💕</p>
-    <button onclick="nextBox(4)">Yes</button>
-    <button onclick="nextBox(4)">No</button>
+    <button onclick="nextBox(4, 'Yes')">Yes</button>
+    <button onclick="nextBox(4, 'No')">No</button>
   </div>
 
   <div id="box5" class="box">
     <p>Do you want your surprise? 🎁</p>
-    <button onclick="nextBox(5)">Yes</button>
-    <button onclick="nextBox(5)">No</button>
+    <button onclick="nextBox(5, 'Yes')">Yes</button>
+    <button onclick="nextBox(5, 'No')">No</button>
   </div>
 
   <div id="finalBox" class="box">
-    <p>Click below for your special surprise 🎶</p>
+    <p>Here are your answers, my love 💖:</p>
+    <ul id="summary"></ul>
+    <p>And now… your surprise 🎶</p>
     <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
       <button>💖 Click Me 💖</button>
     </a>
@@ -130,15 +132,40 @@
 
   <script>
     let currentBox = 1;
+    let answers = [];
 
-    function nextBox(num) {
+    const questions = [
+      "Do you regret being in this relationship? 💔",
+      "Are you mad at me? 🥺",
+      "Do you really love me? ❤️",
+      "Can I always be your Hello Kitty boy? 🐱💕",
+      "Do you want your surprise? 🎁"
+    ];
+
+    function nextBox(num, answer) {
+      // Save answer
+      answers.push({ q: questions[num - 1], a: answer });
+
+      // Hide current box
       document.getElementById("box" + num).classList.remove("active");
+
       currentBox++;
       if (currentBox <= 5) {
         document.getElementById("box" + currentBox).classList.add("active");
       } else {
-        document.getElementById("finalBox").classList.add("active");
+        showSummary();
       }
+    }
+
+    function showSummary() {
+      const summaryList = document.getElementById("summary");
+      summaryList.innerHTML = "";
+      answers.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item.q + " → " + item.a;
+        summaryList.appendChild(li);
+      });
+      document.getElementById("finalBox").classList.add("active");
     }
 
     function createFloaty() {
