@@ -107,6 +107,19 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
+
+    #loveMessage {
+      margin: 20px auto;
+      padding: 15px;
+      width: 300px;
+      background: rgba(255, 182, 193, 0.8);
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
+      font-size: 15px;
+      font-style: italic;
+      line-height: 1.5;
+      color: #b03060;
+    }
   </style>
 </head>
 <body>
@@ -151,6 +164,10 @@
     <br>
     <button onclick="checkPasscode()">Unlock</button>
     <p id="message"></p>
+    <div id="loveMessage" style="display:none;">
+      i wanna start by saying sorry for not being brave enough to take the very first step, ik it may have made you kinda upset , but the truth is ,ive always cared deeply for you,i’ve tried to show you in every way i can that you’re special to me , not just through words, but through the little things i did for us.<br><br>
+      You haven’t carried this relationship alone, my love. We’ve built it together. Please forgive me and i need you to erase this scene from you memory. I love you , i will always do , either you did the first move or i did it, doesnt matter for me , what matters is that we're together now ,people dont see the begining of things, they see the present , so live it w me &lt;3
+    </div>
     <div id="surprise" style="display:none; margin-top:15px;">
       <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
         <button id="clickMeButton">💖 Click Me 💖</button>
@@ -220,6 +237,7 @@
     }
 
     function unlockSurprise() {
+      document.getElementById("loveMessage").style.display = "block";
       const surpriseDiv = document.getElementById("surprise");
       const button = document.getElementById("clickMeButton");
       surpriseDiv.style.display = "block";
